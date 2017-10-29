@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+		<!-- <link href="/dist/css/flat-ui.css" rel="stylesheet"> -->
+	</head>
+	<body>
+		<div class='container' style='margin-top: 40px;'>
+			<h3> Krysha Form </h3>
+			<form action="/submit_form" method="post">
+				<label>Цена от____</label> <input type="text" name="price_from">
+				<label>Цена до_____</label> <input type="text" name="price_to"><br/><br/>
+				<label>Площадь от</label> <input type="text" name="square_from">
+				<label>Площадь до</label> <input type="text" name="square_to"><br/><br/>
+				<label>Этаж от____</label> <input type="text" name="floor_from">
+				<label>Этаж до_____</label> <input type="text" name="floor_to"><br/><br/>
+				<label>Год постройки от</label> <input type="text" name="year_from">
+				<label>Год постройки до</label> <input type="text" name="year_to"><br/><br/>
+				<div class='row'>
+					<div id="list1" class="radio-inline" tabindex="100">
+						<span class="anchor">Район Алматы</span>
+						<ul class="items">
+							<li><input type="radio" name='region' value='almaty-alatauskij'>Алатауский р-н</li>
+							<li><input type="radio" name='region' value='almaty-aujezovskij'>Ауэзовский р-н</li>
+							<li><input type="radio" name='region' value='almaty-almalinskij'>Алмалинский р-н </li>
+							<li><input type="radio" name='region' value='almaty-bostandykskij'>Бостандыкский р-н</li>
+							<li><input type="radio" name='region' value='almaty-zhetysuskij'>Жетысуский р-н </li>
+							<li><input type="radio" name='region' value='almaty-medeuskij'>Медеуский р-н</li>
+							<li><input type="radio" name='region' value='almaty-nauryzbajskiy'>Наурызбайский р-н</li>
+							<li><input type="radio" name='region' value='almaty-turksibskij'>Турксибский р-н</li>
+						</ul>
+					</div>
+					<div id="list2" class="dropdown-check-list" tabindex="100">
+						<span class="anchor">Количество комнат</span>
+						<ul class="items">
+							<li><input type="checkbox" name='room_num[]' value='1'>1</li>
+							<li><input type="checkbox" name='room_num[]' value='2'>2 </li>
+							<li><input type="checkbox" name='room_num[]' value='3'>3 </li>
+							<li><input type="checkbox" name='room_num[]' value='4'>4</li>
+							<li><input type="checkbox" name='room_num[]' value='5.100'>5 и больше</li>
+						</ul>
+					</div>
+					<div id="list3" class="dropdown-check-list" tabindex="100">
+						<span class="anchor">Тип дома</span>
+						<ul class="items">
+							<li><input type="checkbox" name='house_type[]' value='Кирпичный'>Кирпичный</li>
+							<li><input type="checkbox" name='house_type[]' value='Панельный'>Панельный </li>
+							<li><input type="checkbox" name='house_type[]' value='Монолитный'>Монолитный </li>
+							<li><input type="checkbox" name='house_type[]' value='Каркасно-камышитовый'>Каркасно-камышитовый </li>
+							<li><input type="checkbox" name='house_type[]' value='Иное'>Иное </li>
+						</ul>
+					</div>
+					<div 
+						<label class="checkbox-inline"><input type="checkbox" name="from_owner" value="1">От Хозяев</label>
+						<label class="checkbox-inline"><input type="checkbox" name="from_agency" value="1">От проверенных агенств</label>
+						<label class="checkbox-inline"><input type="checkbox" name="photo" value="1">Есть фото</label>
+					</div>
+				</div>
+					<input type="submit" value="Submit">
+				</form>
+			</div>
+			<script src="/dist/js/vendor/jquery.min.js"></script>
+			<script src="/dist/js/flat-ui.min.js"></script>
+		</body>
+	</html>
