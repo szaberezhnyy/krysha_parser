@@ -37,4 +37,6 @@ def receive_form():
     #     prs=flat.price
     # print (from_agency*300)
     # result = parse_krysha(price_from, price_to)
+    for p in pf:
+    	print(p.price)
     return url+ ' ' +str(len(pf))+ ' ' +str(max_page)

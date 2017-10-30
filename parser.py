@@ -6,12 +6,19 @@ import requests
 
 class Flat:
     def __init__ (self):
-        self.title = None
-        self.link = None
-        self.price = None
-        self.address = None
-        self.descr = None
-        self.update_date = None
+        
+        self.room_number = None    #int
+        self.city = None    #str
+        self.dist = None    #str
+        self.mcr_dist = None    #str
+        self.square = None    #float
+        self.floor = None    #int
+        self.max_floor = None    #int
+        self.link = None    #str
+        self.price = None    #float
+        self.address = None    #str
+        self.descr = None    #str
+        self.update_date = None    #str
 
 
 def parse_fst_page(url):
@@ -29,13 +36,26 @@ def parse_fst_page(url):
     all_flats = soup.find_all('div', {'class':'a-description'})
     parsed_flats = []
     for flats in all_flats:
-        f=Flat()
+        f = flat()
         f.link = flats.find_all("a", {'class':'link'})[0].get('href')
-        f.title = flats.find_all("a", {'class':'link'})[0].get('title')
-        f.price = flats.find_all('span', {'class':'a-price-value'})[0].text.replace('\u20b8','')
-        f.address = flats.find_all('div', {'class':'a-subtitle'})[0].text
-        f.descr = flats.find_all('div', {'class':'a-text'})[0].text
-        f.update_date = flats.find_all("span", {'class':'a-date status-item'})[0].text
+        title = (flats.find_all("a", {'class':'link'})[0].get('title')).split('-комнатная квартира, ',1)
+        f.room_number = int( title[0])
+        addr = title[1].split(',')
+        if 'мкр' in addr[0].lower():
+            f.mcr_dist = addr[0]
+        f.address = addr[-1]
+        f.price = float(flats.find_all('span', {'class':'a-price-value'})[0].text.replace('\u20b8','').replace('млн', '').replace('~','').strip())
+        city_square = (flats.find_all('div', {'class':'a-subtitle'})[0].text).split(',')
+        f.city = city_square[0].strip()
+        for info in city_square:
+            if 'р-н' in info:
+                f.dist = info.strip()
+            if 'этаж' in info:
+                f.floor = int(info.split()[0])
+                f.max_floor =int(info.split()[-1])
+        f.square = float(re.findall(r'\d+', city_square[-1])[0])
+        f.descr = flats.find_all('div', {'class':'a-text'})[0].text.strip()
+        f.update_date = flats.find_all("span", {'class':'a-date status-item'})[0].text.strip()
         parsed_flats.append(f)
     return  parsed_flats, max_page
 
@@ -46,12 +66,26 @@ def parse_page(url):
     all_flats = soup.find_all('div', {'class':'a-description'})
     parsed_flats = []
     for flats in all_flats:
-        f=Flat()
+        f = flat()
         f.link = flats.find_all("a", {'class':'link'})[0].get('href')
-        f.title = flats.find_all("a", {'class':'link'})[0].get('title')
-        f.price = flats.find_all('span', {'class':'a-price-value'})[0].text.replace('\u20b8','')
-        f.address = flats.find_all('div', {'class':'a-subtitle'})[0].text
-        f.descr = flats.find_all('div', {'class':'a-text'})[0].text
+        title = (flats.find_all("a", {'class':'link'})[0].get('title')).split('-комнатная квартира, ',1)
+        f.room_number = int( title[0])
+        addr = title[1].split(',')
+        if 'мкр' in addr[0].lower():
+            f.mcr_dist = addr[0]
+        f.address = addr[-1]
+        f.price = float(flats.find_all('span', {'class':'a-price-value'})[0].text.replace('\u20b8','').replace('млн', '').replace('~','').strip())
+        city_square = (flats.find_all('div', {'class':'a-subtitle'})[0].text).split(',')
+        f.city = city_square[0].strip()
+        for info in city_square:
+            if 'р-н' in info:
+                f.dist = info.strip()
+            if 'этаж' in info:
+                f.floor = int(info.split()[0])
+                f.max_floor =int(info.split()[-1])
+        f.square = float(re.findall(r'\d+', city_square[-1])[0])
+        f.descr = flats.find_all('div', {'class':'a-text'})[0].text.strip()
+        f.update_date = flats.find_all("span", {'class':'a-date status-item'})[0].text.strip()
         parsed_flats.append(f)
     return parsed_flats
 
