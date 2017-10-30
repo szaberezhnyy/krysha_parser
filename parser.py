@@ -36,7 +36,7 @@ def parse_fst_page(url):
     all_flats = soup.find_all('div', {'class':'a-description'})
     parsed_flats = []
     for flats in all_flats:
-        f = flat()
+        f = Flat()
         f.link = flats.find_all("a", {'class':'link'})[0].get('href')
         title = (flats.find_all("a", {'class':'link'})[0].get('title')).split('-комнатная квартира, ',1)
         f.room_number = int( title[0])
@@ -66,7 +66,7 @@ def parse_page(url):
     all_flats = soup.find_all('div', {'class':'a-description'})
     parsed_flats = []
     for flats in all_flats:
-        f = flat()
+        f = Flat()
         f.link = flats.find_all("a", {'class':'link'})[0].get('href')
         title = (flats.find_all("a", {'class':'link'})[0].get('title')).split('-комнатная квартира, ',1)
         f.room_number = int( title[0])
