@@ -1,22 +1,22 @@
 import sys
 from bs4 import BeautifulSoup
-
+import re
 import requests
 
 
 class Flat:
     def __init__ (self):
         
-        self.room_number = None    #int
+        self.link = None    #str
         self.city = None    #str
         self.dist = None    #str
         self.mcr_dist = None    #str
-        self.square = None    #float
+        self.address = None    #str
         self.floor = None    #int
         self.max_floor = None    #int
-        self.link = None    #str
+        self.room_number = None    #int
+        self.square = None    #float
         self.price = None    #float
-        self.address = None    #str
         self.descr = None    #str
         self.update_date = None    #str
 
@@ -43,7 +43,7 @@ def parse_fst_page(url):
         addr = title[1].split(',')
         if 'мкр' in addr[0].lower():
             f.mcr_dist = addr[0]
-        f.address = addr[-1]
+        f.address = addr[-1].strip()
         f.price = float(flats.find_all('span', {'class':'a-price-value'})[0].text.replace('\u20b8','').replace('млн', '').replace('~','').strip())
         city_square = (flats.find_all('div', {'class':'a-subtitle'})[0].text).split(',')
         f.city = city_square[0].strip()
@@ -51,8 +51,14 @@ def parse_fst_page(url):
             if 'р-н' in info:
                 f.dist = info.strip()
             if 'этаж' in info:
-                f.floor = int(info.split()[0])
-                f.max_floor =int(info.split()[-1])
+                try:
+                    f.floor = int(info.split()[0])
+                except:
+                    f.floor = None
+                try:
+                    f.max_floor =int(info.split()[-1])
+                except:
+                    f.max_floor = None
         f.square = float(re.findall(r'\d+', city_square[-1])[0])
         f.descr = flats.find_all('div', {'class':'a-text'})[0].text.strip()
         f.update_date = flats.find_all("span", {'class':'a-date status-item'})[0].text.strip()
@@ -81,8 +87,14 @@ def parse_page(url):
             if 'р-н' in info:
                 f.dist = info.strip()
             if 'этаж' in info:
-                f.floor = int(info.split()[0])
-                f.max_floor =int(info.split()[-1])
+                try:
+                    f.floor = int(info.split()[0])
+                except:
+                    f.floor = None
+                try:
+                    f.max_floor =int(info.split()[-1])
+                except:
+                    f.max_floor = None
         f.square = float(re.findall(r'\d+', city_square[-1])[0])
         f.descr = flats.find_all('div', {'class':'a-text'})[0].text.strip()
         f.update_date = flats.find_all("span", {'class':'a-date status-item'})[0].text.strip()
